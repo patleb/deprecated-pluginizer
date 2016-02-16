@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+source_path = (Pathname.new(__FILE__).dirname + '../lib').expand_path
+$LOAD_PATH << source_path
+
+require 'pluginizer'
+
+if ['-v', '--version'].include? ARGV[0]
+  puts Pluginizer::VERSION
+  exit 0
+end
+
+templates_root = File.expand_path(File.join("..", "templates"), File.dirname(__FILE__))
+Pluginizer::PluginGenerator.source_root templates_root
+Pluginizer::PluginGenerator.source_paths << templates_root << Rails::Generators::PluginGenerator.source_root
+
+Pluginizer::PluginGenerator.start
