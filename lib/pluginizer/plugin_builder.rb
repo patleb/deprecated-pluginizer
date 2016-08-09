@@ -8,6 +8,9 @@ module Pluginizer
       template "%name%.gemspec"
     end
 
+    def test
+    end
+
     def leftovers
       template '.ruby-version'
 

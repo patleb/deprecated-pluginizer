@@ -4,8 +4,6 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'pluginizer/version'
 
 Gem::Specification.new do |spec|
-  spec.required_ruby_version = ">= #{Pluginizer::RUBY_VERSION}"
-
   spec.name          = "pluginizer"
   spec.version       = Pluginizer::VERSION
   spec.authors       = ["Patrice Lebel"]
@@ -21,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.executables   = ["pluginizer"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'rails', "~> #{Pluginizer::RAILS_VERSION}", ">= #{Pluginizer::RAILS_VERSION}.0"
+  spec.add_dependency 'rails', ">= 4.2", "< 6"
 
   spec.add_runtime_dependency 'bundler', '~> 1.3'
 

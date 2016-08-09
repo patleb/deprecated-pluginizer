@@ -1,6 +1,6 @@
 # Pluginizer
 
-TODO: Delete this and describe your gem
+Personal rails plugin generator with preferred settings/files (it sets my github noreply email, name, etc.).
 
 ## Installation
 
@@ -14,17 +14,13 @@ To output the current gem version:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ pluginizer my-new-plugin-name
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Vagrant
-
-After `vagrant up`, connect with `vagrant ssh` and add your public ssh key `id_rsa.pub` to `~/.ssh/authorized_keys`.
 
 ## Contributing
 

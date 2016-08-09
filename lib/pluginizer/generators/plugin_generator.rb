@@ -9,7 +9,7 @@ module Pluginizer
     class_option :full, type: :boolean, default: true,
       desc: "Generate a rails engine with bundled Rails application for testing"
 
-    class_option :ruby_version, type: :string, default: '2.2.3',
+    class_option :ruby_version, type: :string, default: '2.3.1',
       desc: 'Set Ruby version used'
 
     protected
