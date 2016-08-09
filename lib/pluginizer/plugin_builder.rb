@@ -8,6 +8,10 @@ module Pluginizer
       template "%name%.gemspec"
     end
 
+    def gitignore
+      template '.gitignore'
+    end
+
     def test
     end
 
