@@ -15,9 +15,11 @@ module Pluginizer
       template '.ruby-version'
 
       after_bundle do
-        git :init
-        git add: '.'
-        git commit: "-m 'first commit'"
+        in_root do
+          git :init
+          git add: '.'
+          git commit: "-m 'first commit'"
+        end
       end
     end
   end
