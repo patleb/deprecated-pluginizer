@@ -1,0 +1,25 @@
+<%= wrap_in_modules <<-rb.strip_heredoc
+  class Engine < ::Rails::Engine
+  #{mountable? ? '  isolate_namespace ' + camelized_modules : ' '}
+  #{api? ? "  config.generators.api_only = true" : ' '}
+    # Initialize engine dependencies on wrapper application
+    Gem.loaded_specs["#{ name }"].dependencies.each do |d|
+      begin
+        require d.name
+      rescue LoadError => e
+        # Put exceptions here.
+      end
+    end
+
+
+    # Uncomment if migrations need to be shared
+    # initializer :append_migrations do |app|
+    #   unless app.root.to_s.match root.to_s
+    #     config.paths["db/migrate"].expanded.each do |expanded_path|
+    #       app.config.paths["db/migrate"] << expanded_path
+    #     end
+    #   end
+    # end
+  end
+rb
+%>
