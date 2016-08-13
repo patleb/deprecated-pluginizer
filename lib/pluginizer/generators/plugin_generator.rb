@@ -3,9 +3,6 @@ require 'rails/generators/rails/plugin/plugin_generator'
 
 module Pluginizer
   class PluginGenerator < Rails::Generators::PluginGenerator
-    class_option :dummy_path, type: :string, default: "spec/dummy",
-      desc: "Create dummy application at given path"
-
     class_option :full, type: :boolean, default: true,
       desc: "Generate a rails engine with bundled Rails application for testing"
 
