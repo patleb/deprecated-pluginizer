@@ -17,6 +17,7 @@ module <%= camelized_modules %>
 
   class Configuration
     # attr_writer :config_name
+    # attr_accessor :other_config_name
 
     # def config_name
     #   @config_name ||= 'default value'
