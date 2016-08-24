@@ -17,6 +17,7 @@ module Pluginizer
 
     def leftovers
       template '.ruby-version'
+      template "lib/%namespaced_name%/configuration.rb"
 
       after_bundle do
         in_root do
