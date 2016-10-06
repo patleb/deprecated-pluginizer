@@ -38,6 +38,8 @@ module Pluginizer
       gsub_file 'spec/rails_helper.rb',
         "require File.expand_path('../../config/environment', __FILE__)",
         "require File.expand_path('../dummy/config/environment', __FILE__)"
+
+      run "bundle binstubs rspec-core"
     end
   end
 end
