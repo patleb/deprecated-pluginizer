@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "<%= gem_for_database[0] %>"
 <% end -%>
   s.add_development_dependency 'rspec-rails', '~> 3.5'
+  s.add_development_dependency 'fantaskspec', '~> 1.0'
 end
