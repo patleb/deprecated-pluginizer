@@ -41,13 +41,18 @@ module Pluginizer
 
       run "bundle binstubs rspec-core"
 
-      { "# Add additional requires below this line. Rails is not loaded until this point!" =>
-          "\nrequire 'fantaskspec'\n",
-        %{# config.filter_gems_from_backtrace("gem name")} =>
-          "\n\n  config.infer_rake_task_specs_from_file_location!"
-      }.each do |after_line, new_line|
-        insert_into_file 'spec/rails_helper.rb', new_line, after: after_line
-      end
+      insert_into_file 'spec/rails_helper.rb', "\nrequire 'fantaskspec'\n", after: "# Add additional requires below this line. Rails is not loaded until this point!"
+      insert_into_file 'spec/rails_helper.rb', "\n  config.infer_rake_task_specs_from_file_location!\n", before: /^end/
+      shoulda = <<-SHOULDA.strip_heredoc.indent(2)
+
+        Shoulda::Matchers.configure do |config|
+          config.integrate do |with|
+            with.test_framework :rspec
+            with.library :rails
+          end
+        end
+      SHOULDA
+      insert_into_file 'spec/rails_helper.rb', shoulda, before: /^end/
     end
   end
 end
