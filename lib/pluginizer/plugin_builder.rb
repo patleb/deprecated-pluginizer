@@ -1,13 +1,5 @@
 module Pluginizer
   class PluginBuilder < Rails::PluginBuilder
-    def readme
-      template 'README.md'
-    end
-
-    def gemspec
-      template "%name%.gemspec"
-    end
-
     def gitignore
       template '.gitignore'
     end
@@ -54,6 +46,14 @@ module Pluginizer
       insert_into_file rails_helper,
         "\n  config.render_views\n",
         before: /^end/
+      cache = <<-CACHE.strip_heredoc.indent(2)
+
+        config.before(:each) do
+          Rails.cache.clear
+        end
+      CACHE
+      insert_into_file rails_helper, cache,
+        before: /^end/
       shoulda = <<-SHOULDA.strip_heredoc.indent(2)
 
         Shoulda::Matchers.configure do |config|
@@ -63,7 +63,8 @@ module Pluginizer
           end
         end
       SHOULDA
-      insert_into_file rails_helper, shoulda, before: /^end/
+      insert_into_file rails_helper, shoulda,
+        before: /^end/
       insert_into_file rails_helper,
         "\n  config.include(Shoulda::Callback::Matchers::ActiveModel)\n",
         before: /^end/
