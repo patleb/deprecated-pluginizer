@@ -37,9 +37,13 @@ module Pluginizer
 
       run "bundle binstubs rspec-core"
 
-      requires = %w[fantaskspec email_spec email_spec/rspec].map{ |file| "require '#{file}'" }
+      requires = %w[
+        fantaskspec
+        email_spec
+        email_spec/rspec
+      ].map{ |file| "require '#{file}'" }.join("\n")
       insert_into_file rails_helper,
-        "\n#{requires.join("\n")}\n",
+        "\n#{requires}\n",
         after: "# Add additional requires below this line. Rails is not loaded until this point!"
       insert_into_file rails_helper,
         "\n  config.infer_rake_task_specs_from_file_location!\n",
