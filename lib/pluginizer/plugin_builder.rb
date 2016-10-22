@@ -42,24 +42,17 @@ module Pluginizer
         email_spec
         email_spec/rspec
       ].map{ |file| "require '#{file}'" }.join("\n")
-      insert_into_file rails_helper,
-        "\n#{requires}\n",
-        after: "# Add additional requires below this line. Rails is not loaded until this point!"
-      insert_into_file rails_helper,
-        "\n  config.infer_rake_task_specs_from_file_location!\n",
-        before: /^end/
-      insert_into_file rails_helper,
-        "\n  config.render_views\n",
-        before: /^end/
-      cache = <<-CACHE.strip_heredoc.indent(2)
+      insert_into_file rails_helper, "\n#{requires}\n", after: "# Add additional requires below this line. Rails is not loaded until this point!"
+
+      insert_into_file rails_helper, "\n  config.infer_rake_task_specs_from_file_location!\n", before: /^end/
+      insert_into_file rails_helper, "\n  config.render_views\n", before: /^end/
+      insert_into_file rails_helper, <<-END.strip_heredoc.indent(2), before: /^end/
 
         config.before(:each) do
           Rails.cache.clear
         end
-      CACHE
-      insert_into_file rails_helper, cache,
-        before: /^end/
-      shoulda = <<-SHOULDA.strip_heredoc.indent(2)
+      END
+      insert_into_file rails_helper, <<-END.strip_heredoc.indent(2), before: /^end/
 
         Shoulda::Matchers.configure do |config|
           config.integrate do |with|
@@ -67,12 +60,8 @@ module Pluginizer
             with.library :rails
           end
         end
-      SHOULDA
-      insert_into_file rails_helper, shoulda,
-        before: /^end/
-      insert_into_file rails_helper,
-        "\n  config.include(Shoulda::Callback::Matchers::ActiveModel)\n",
-        before: /^end/
+      END
+      insert_into_file rails_helper, "\n  config.include(Shoulda::Callback::Matchers::ActiveModel)\n", before: /^end/
     end
   end
 end
