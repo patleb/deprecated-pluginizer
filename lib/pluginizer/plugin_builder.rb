@@ -13,6 +13,7 @@ module Pluginizer
 
       after_bundle do
         in_root do
+          configure_database_yml if options.database == 'postgresql'
           configure_rspec
 
           git :init
@@ -23,6 +24,15 @@ module Pluginizer
     end
 
     private
+
+    def configure_database_yml
+      insert_into_file 'spec/dummy/config/database.yml', <<-END.strip_heredoc.indent(2), after: "encoding: unicode"
+
+        host: 127.0.0.1
+        username: postgres
+        password: postgres
+      END
+    end
 
     def configure_rspec
       invoke('rspec:install')
