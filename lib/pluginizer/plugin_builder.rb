@@ -15,10 +15,13 @@ module Pluginizer
         in_root do
           configure_database_yml if options.database == 'postgresql'
           configure_rspec
+          configure_dummy_environments
 
-          git :init
-          git add: '.'
-          git commit: "-m 'first commit'"
+          unless options.skip_git? || options.skip_git_init?
+            git :init
+            git add: '.'
+            git commit: "-m 'first commit'"
+          end
         end
       end
     end
@@ -52,10 +55,13 @@ module Pluginizer
         email_spec
         email_spec/rspec
       ].map{ |file| "require '#{file}'" }.join("\n")
-      insert_into_file rails_helper, "\n#{requires}\n", after: "# Add additional requires below this line. Rails is not loaded until this point!"
+      insert_into_file rails_helper, "\n#{requires}\n",
+        after: "# Add additional requires below this line. Rails is not loaded until this point!"
 
-      insert_into_file rails_helper, "\n  config.infer_rake_task_specs_from_file_location!\n", before: /^end/
-      insert_into_file rails_helper, "\n  config.render_views\n", before: /^end/
+      insert_into_file rails_helper, "\n  config.infer_rake_task_specs_from_file_location!\n",
+        before: /^end/
+      insert_into_file rails_helper, "\n  config.render_views\n",
+        before: /^end/
       insert_into_file rails_helper, <<-END.strip_heredoc.indent(2), before: /^end/
 
         config.before(:each) do
@@ -71,7 +77,15 @@ module Pluginizer
           end
         end
       END
-      insert_into_file rails_helper, "\n  config.include(Shoulda::Callback::Matchers::ActiveModel)\n", before: /^end/
+      insert_into_file rails_helper, "\n  config.include(Shoulda::Callback::Matchers::ActiveModel)\n",
+        before: /^end/
+    end
+
+    def configure_dummy_environments
+      insert_into_file 'spec/dummy/config/environments/test.rb', <<-END.strip_heredoc.indent(2), before: /^end/
+
+        config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, 5*1024*1024) # 5Mb
+      END
     end
   end
 end

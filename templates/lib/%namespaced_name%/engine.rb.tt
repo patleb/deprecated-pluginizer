@@ -4,6 +4,7 @@ require "<%= namespaced_name %>/configuration"
   class Engine < ::Rails::Engine
   #{mountable? ? '  isolate_namespace ' + camelized_modules : ' '}
   #{api? ? "  config.generators.api_only = true" : ' '}
+    \n
     # Initialize engine dependencies on wrapper application
     Gem.loaded_specs["#{ name }"].dependencies.each do |d|
       begin
@@ -12,8 +13,7 @@ require "<%= namespaced_name %>/configuration"
         # Put exceptions here.
       end
     end
-
-
+    \n
     # Uncomment if migrations need to be shared
     # initializer :append_migrations do |app|
     #   unless app.root.to_s.match root.to_s
@@ -22,6 +22,12 @@ require "<%= namespaced_name %>/configuration"
     #     end
     #   end
     # end
+    \n
+    config.to_prepare do
+      # Dir[Engine.root.join("{app,lib}/**/*_decorator.rb")].each do |c|
+      #   require_dependency(c)
+      # end
+    end
   end
 rb
 %>

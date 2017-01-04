@@ -12,6 +12,9 @@ module Pluginizer
     class_option :ruby_version, type: :string, default: '2.3.1',
       desc: 'Set Ruby version used'
 
+    class_option :skip_git_init, type: :boolean, default: false,
+      desc: 'Skip git repository initialization'
+
     protected
 
     def get_builder_class
