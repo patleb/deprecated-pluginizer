@@ -10,6 +10,7 @@ module Pluginizer
     def leftovers
       template '.ruby-version'
       template "lib/%namespaced_name%/configuration.rb"
+      configure_gemfile
 
       after_bundle do
         in_root do
@@ -27,6 +28,16 @@ module Pluginizer
     end
 
     private
+
+    def configure_gemfile
+      insert_into_file 'Gemfile', <<-END.strip_heredoc, after: "source 'https://rubygems.org'"
+        \n
+        git_source(:github) do |repo_name|
+          repo_name = "\#{repo_name}/\#{repo_name}" unless repo_name.include?("/")
+          "https://github.com/\#{repo_name}.git"
+        end
+      END
+    end
 
     def configure_database_yml
       insert_into_file 'spec/dummy/config/database.yml', <<-END.strip_heredoc.indent(2), after: "encoding: unicode"
