@@ -15,6 +15,9 @@ module Pluginizer
     class_option :skip_git_init, type: :boolean, default: false,
       desc: 'Skip git repository initialization'
 
+    class_option :assets_only, type: :boolean, default: false,
+      desc: 'Configure the plugin for assets only'
+
     protected
 
     def get_builder_class

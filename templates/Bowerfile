@@ -1,0 +1,6 @@
+# A sample Bowerfile
+# Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
+
+# asset 'jquery-migrate', github: 'jquery/jquery-migrate', ref: '48e7cae'
+# asset 'signature_pad'
+# resolution 'signature_pad', '1.5.2'

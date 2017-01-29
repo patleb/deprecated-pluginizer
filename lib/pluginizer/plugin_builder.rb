@@ -18,6 +18,51 @@ module Pluginizer
           configure_rspec
           configure_dummy_environments
 
+          if options.assets_only?
+            copy_file 'Bowerfile'
+            insert_into_file 'Rakefile', "\n\nRails.application.load_tasks",
+              after: "require 'bundler/gem_tasks'"
+            inside 'app' do
+              remove_dir 'assets/config'
+              remove_dir 'assets/images'
+              remove_dir 'controllers'
+              remove_dir 'helpers'
+              remove_dir 'mailers'
+              remove_dir 'models'
+              remove_dir 'views'
+            end
+            remove_dir 'bin'
+            remove_dir 'config'
+            remove_dir 'lib/tasks'
+            remove_file "lib/#{namespaced_name}/configuration.rb"
+            inside 'spec' do
+              remove_file 'rails_helper.rb'
+              remove_file 'spec_helper.rb'
+              inside 'dummy' do
+                remove_dir 'app'
+                remove_dir 'bin'
+                inside 'config' do
+                  remove_dir 'environments'
+                  remove_dir 'initializers'
+                  remove_dir 'locales'
+                  remove_file 'cable.yml'
+                  remove_file 'database.yml'
+                  remove_file 'environment.rb'
+                  remove_file 'puma.rb'
+                  remove_file 'routes.rb'
+                  remove_file 'secrets.yml'
+                  remove_file 'spring.rb'
+                end
+                remove_dir 'db'
+                remove_dir 'lib'
+                remove_dir 'log'
+                remove_dir 'public'
+                remove_dir 'tmp'
+                remove_file 'config.ru'
+              end
+            end
+          end
+
           unless options.skip_git? || options.skip_git_init?
             git :init
             git add: '.'
