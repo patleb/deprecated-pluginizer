@@ -25,10 +25,10 @@ Gem::Specification.new do |s|
 <% if options.assets_only? -%>
   s.add_dependency 'bower-rails', '~> 0.11'
 <% else -%>
-  <% unless options[:skip_active_record] -%>
+  <%- unless options[:skip_active_record] -%>
 
   s.add_development_dependency "<%= gem_for_database[0] %>"
-  <% end -%>
+  <%- end -%>
   s.add_development_dependency 'rspec-rails', '~> 3.5'
   s.add_development_dependency 'fantaskspec', '~> 1.0'
   s.add_development_dependency 'shoulda-matchers', '~> 3.1'
